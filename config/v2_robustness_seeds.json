@@ -1,0 +1,35 @@
+{
+  "generator_sha256": "21f0e10549227079c2dd2e76315e9498afca63cdaabea24323751feaedfd5880",
+  "runs": {
+    "R1": {
+      "baseline_seed": 101,
+      "planning_seed": 1101,
+      "allocation_seed": 2101,
+      "metadata_seed": 3101
+    },
+    "R2": {
+      "baseline_seed": 202,
+      "planning_seed": 1202,
+      "allocation_seed": 2202,
+      "metadata_seed": 3202
+    },
+    "R3": {
+      "baseline_seed": 303,
+      "planning_seed": 1303,
+      "allocation_seed": 2303,
+      "metadata_seed": 3303
+    },
+    "R4": {
+      "baseline_seed": 404,
+      "planning_seed": 1404,
+      "allocation_seed": 2404,
+      "metadata_seed": 3404
+    },
+    "R5": {
+      "baseline_seed": 505,
+      "planning_seed": 1505,
+      "allocation_seed": 2505,
+      "metadata_seed": 3505
+    }
+  }
+}

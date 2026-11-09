@@ -1,0 +1,24 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local settings
+.vscode/
+.env
+
+# Temporary files
+project_structure.txt
+project_structure_clean.txt
+
+# Operating system
+.DS_Store
+Thumbs.db
+
+# Large synthetic transaction datasets
+**/transactions.csv
+
+notebooks_backup/

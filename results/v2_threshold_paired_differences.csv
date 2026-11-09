@@ -1,0 +1,5 @@
+model,B_minus_A_TP,B_minus_A_FP,B_minus_A_alerts,B_minus_A_precision,B_minus_A_recall,B_minus_A_F1
+behavioral,2,20,22,-0.0114081996434937,0.02,-0.00399710735651831
+fund_flow_core,-5,-47,-52,0.125705329153605,-0.05,0.0182037371910789
+combined_core,10,60,70,-0.0212729748127978,0.1,0.00599118098159507
+fund_flow_extended,-6,-43,-49,0.0388314059646987,-0.06,0.00144679230915667
