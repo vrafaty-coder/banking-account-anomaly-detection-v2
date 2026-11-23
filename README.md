@@ -1,154 +1,92 @@
-# Banking Account Anomaly Detection — V2
+# Banking Account Anomaly Detection
 
-## Overview
+An experimental machine learning project exploring anomaly detection in core banking systems using behavioral and fund-flow information.
 
-This repository contains the experimental implementation of a research framework for explainable account-level anomaly detection in core banking systems.
+The project investigates whether combining account activity patterns with monetary flow characteristics can improve anomaly detection compared with using either feature group separately.
 
-The framework integrates behavioral account features and fund-flow evidence to investigate their contributions to anomaly detection.
+The implementation uses Python, Isolation Forest, synthetic banking transactions, and several model fusion strategies.
 
-The experiments use synthetic banking data, Isolation Forest models, score-fusion strategies, and repeated robustness evaluations.
+## Approach
 
-All generated banking data is synthetic. No real customer or production banking data is included.
+The experiments use synthetic transaction data representing 1,000 accounts over six months, aggregated into 6,000 account-month observations.
 
-## Research Objectives
+Five anomaly scenarios were simulated, including unusual transaction frequency, transaction amounts, inflow/outflow patterns, counterparty diversity, and combined behavioral changes.
 
-The project investigates:
+Four Isolation Forest configurations were evaluated:
 
-- The effectiveness of behavioral account features for anomaly detection.
-- The contribution of fund-flow features.
-- The performance of combined behavioral and fund-flow models.
-- The effectiveness of alternative anomaly-score fusion strategies.
-- The stability of detection performance across independently generated synthetic datasets.
-- The interpretation of anomaly alerts using account-level evidence.
+- Behavioral features
+- Fund Flow Core features
+- Combined Behavioral and Fund Flow features
+- Fund Flow Extended features
 
-## Synthetic Dataset
+Three additional strategies combine the outputs of separately trained detectors: Union, Mean Fusion, and Max Fusion.
 
-The primary V2 dataset contains:
+The dataset was divided chronologically into training (months 1–3), validation (month 4), and testing (months 5–6).
 
-| Property | Value |
-|---|---|
-| Accounts | 1,000 |
-| Observation period | 6 months |
-| Evaluation unit | Account-month |
-| Account-month observations | 6,000 |
-| Training period | Months 1–3 |
-| Validation period | Month 4 |
-| Test period | Months 5–6 |
-| Injected validation anomalies | 50 |
-| Injected test anomalies | 100 |
+## Key Findings
 
-Five controlled anomaly scenarios are implemented:
+- Combining behavioral and core fund-flow features increased recall from 0.33 to 0.43, although false positives also increased.
+- Max Fusion achieved an F1-score of 0.3173, with fewer false positives than the Combined Core model.
+- Across five independent synthetic replications, Max Fusion consistently achieved higher F1 than Combined Core, while Combined Core achieved higher average precision.
+- Descriptive evidence was generated for all 171 Max Fusion alerts, identifying the dominant detector and prominent feature deviations.
 
-1. S1 — Transaction count spike
-2. S2 — Transaction amount shift
-3. S3 — Inflow/outflow shift
-4. S4 — Counterparty diversity spike
-5. S5 — Combined moderate shift
+The results highlight trade-offs between detection coverage, false positives, and anomaly-ranking quality.
 
-Anomalies are injected into selected account-month observations while preserving the defined experimental allocation constraints.
+## Technologies
 
-## Detection Methods
-
-Four Isolation Forest configurations are evaluated:
-
-- Behavioral
-- Fund Flow Core
-- Combined Core
-- Fund Flow Extended
-
-Three fusion strategies are also evaluated:
-
-- Union
-- Mean Fusion
-- Max Fusion
-
-Performance is assessed using precision, recall, F1-score, average precision, and alert counts.
-
-## Robustness Evaluation
-
-Five independently seeded synthetic datasets, R1–R5, are used to examine the stability of the experimental results.
-
-Each replication follows the same generation and evaluation framework while varying the configured random seeds.
-
-The robustness experiments assess the consistency of individual detection models and fusion strategies.
+- Python
+- pandas and NumPy
+- scikit-learn (Isolation Forest)
+- Matplotlib
+- Jupyter Notebook
 
 ## Repository Structure
 
-```text
-banking-account-anomaly-detection-v2/
-├── config/
-├── data/
-│   ├── generated_v2/
-│   │   └── releases/
-│   │       └── v2_20261028/
-│   └── robustness/
-│       └── releases/
-│           ├── R1/
-│           ├── R2/
-│           ├── R3/
-│           ├── R4/
-│           └── R5/
-├── notebooks/
-│   ├── 01_data_exploration.ipynb
-│   ├── 02_model_preparation.ipynb
-│   ├── 02_model_preparation_threshold_comparison_reviewed.ipynb
-│   ├── 03_robustness_evaluation.ipynb
-│   └── 04_replication_evaluation.ipynb
-├── results/
-├── src/
-│   ├── generate_data_v2.py
-│   └── generate_robustness_data.py
-├── tests/
-│   └── test_robustness_generation.py
-├── .gitignore
-├── README.md
-└── requirements.txt
+- `src/` — Synthetic data generation scripts
+- `config/` — Experiment configurations
+- `data/` — Generated account-level datasets and replication artifacts
+- `notebooks/` — Data exploration, model evaluation, and robustness experiments
+- `results/` — Experimental outputs
+- `tests/` — Data-generation validation tests
+
+## Getting Started
+
+Clone the repository:
+
+```bash
+git clone https://github.com/vrafaty-coder/banking-account-anomaly-detection-v2.git
+cd banking-account-anomaly-detection-v2
 ```
 
-## Installation
-
-Clone the repository and create a Python virtual environment.
+Create a Python virtual environment and install dependencies:
 
 ```bash
 python -m venv .venv
-```
-
-Activate the environment and install dependencies.
-
-```bash
 python -m pip install -r requirements.txt
 ```
 
-The environment requires NumPy, pandas, Matplotlib, and scikit-learn.
+Activate the virtual environment before installing dependencies. The notebooks can then be explored using Jupyter.
 
-To execute the notebooks interactively, a compatible Jupyter environment is also required.
-
-## Data Availability
-
-The repository includes account-level metadata, account-month features, evaluation labels, and experimental results.
-
-Large transaction-level CSV files are excluded from Git tracking to keep the repository manageable.
-
-The included account-month datasets support model-level evaluation without requiring the complete transaction files.
-
-Full synthetic data regeneration is supported by the generation scripts and their associated configurations, subject to the documented release-generation procedures.
-
-## Validation
-
-Robustness-generation unit tests can be executed using:
+To run the data-generation tests:
 
 ```bash
 python -m unittest discover -s tests -p "test_robustness_generation.py" -v
 ```
 
-These tests verify generation-related invariants and reproducibility safeguards. They do not independently reproduce all published model metrics.
+## Research Paper
+
+**Integrating Behavioral and Fund-Flow Evidence for Explainable Anomaly Detection in Core Banking**
+
+Vahideh Rafati Porshokooh
+
+Informatics Services Corporation, Tehran, Iran
+
+This repository contains the experimental implementation and supporting artifacts associated with the research.
 
 ## Limitations
 
-The experiments use synthetic rather than production banking data. Consequently, measured performance should not be interpreted as validated effectiveness in a live banking environment.
+The experiments use synthetic banking data and predefined anomaly scenarios. The results have not been validated using production banking transactions.
 
-The injected scenarios represent controlled behavioral and fund-flow changes and do not establish that detected anomalies correspond to actual financial crime or fraud.
+The generated explanations describe unusual feature values rather than providing causal explanations of model decisions.
 
-## Research Status
-
-This repository preserves the V2 experimental implementation, evaluation artifacts, and R1–R5 robustness analysis associated with the research study.
+The framework is intended for research and experimentation, not production deployment.
